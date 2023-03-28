@@ -7,17 +7,31 @@ public class Song
 {
     private String title,genre,artist;
     private Set<Song> features= new HashSet<>();
-    private Integer duration;
+    private String duration;
+    private String album;
 
     public Set<Song> getFeatures() {
         return features;
     }
 
-    public Song(String title, String genre, String artist, Integer duration) {
+    public Song(String title, String genre, String artist,String  duration,String album) {
         this.title = title;
         this.genre = genre;
         this.artist = artist;
         this.duration = duration;
+        this.album= album;
+    }
+
+    public void setFeatures(Set<Song> features) {
+        this.features = features;
+    }
+
+    public String getAlbum() {
+        return album;
+    }
+
+    public void setAlbum(String album) {
+        this.album = album;
     }
 
     public String getTitle() {
@@ -36,7 +50,7 @@ public class Song
         this.artist = artist;
     }
 
-    public void setDuration(Integer duration) {
+    public void setDuration(String  duration) {
         this.duration = duration;
     }
 
@@ -48,7 +62,7 @@ public class Song
         return artist;
     }
 
-    public Integer getDuration() {
+    public String  getDuration() {
         return duration;
     }
 }

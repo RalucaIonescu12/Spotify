@@ -10,13 +10,54 @@ import java.util.ArrayList;
 6.creeare user nou
 7.cautare melodie
  */
+
 public class User
 {
-    private String firstName,lastName,password,email,subscriptionType;
+    private String username,firstName,lastName,password,email,subscriptionType;
     private ArrayList<Playlist> playlists;
+    private SongQueue songQueue;
+    public User(String username,String firstName, String lastName, String password, String email, String subscriptionType) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.email = email;
+        this.subscriptionType = subscriptionType;
+        this.playlists = new ArrayList<>();
+        this.songQueue = new SongQueue();
+        this.username = username;
+    }
+    public User(String firstName, String lastName, String password, String email, String subscriptionType, ArrayList<Playlist> playlists, SongQueue songQueue) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.email = email;
+        this.subscriptionType = subscriptionType;
+        this.playlists = playlists;
+        this.songQueue = songQueue;
+    }
+    //////////////////methods/////////////////////////////
+
+
+
+    //////////////getters & setters//////////////////////
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public String getFirstName() {
         return firstName;
+    }
+
+    public SongQueue getSongQueue() {
+        return songQueue;
+    }
+
+    public void setSongQueue(SongQueue songQueue) {
+        this.songQueue = songQueue;
     }
 
     public void setFirstName(String firstName) {
@@ -47,14 +88,6 @@ public class User
         this.email = email;
     }
 
-    public User(String firstName, String lastName, String password, String email, String subscriptionType) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.password = password;
-        this.email = email;
-        this.subscriptionType = subscriptionType;
-    }
-
     public String getSubscriptionType() {
         return subscriptionType;
     }
@@ -70,4 +103,11 @@ public class User
     public void setPlaylists(ArrayList<Playlist> playlists) {
         this.playlists = playlists;
     }
+    ///////////////////////////////////////////////////////////////
+
+
+
+
+
+
 }

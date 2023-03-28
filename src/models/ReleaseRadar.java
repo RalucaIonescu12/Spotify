@@ -27,17 +27,7 @@ public class ReleaseRadar extends Playlist
             this.getSongs().add(song);
         }
     }
-//    public void addMultipleSongs(Song song) {
-//        if (numSongsAdded < 10) {
-//            songs.add(song);
-//            numSongsAdded++;
-//        }
-//        else
-//        {
-//            songs.remove(0);
-//            songs.add(song);
-//        }
-//    }
+
     public static int getNumberSongsAdded() {
         return numSongsAdded;
     }

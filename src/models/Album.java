@@ -4,12 +4,36 @@ import java.util.ArrayList;
 
 public class Album
 {
-    private String Title, artist;
+    private String title, artist,genre;
     private ArrayList<Song> songs;
     private String releaseDate;
+    public Album()
+    {
+        this.title = "";
+        this.artist = "";
+        this.songs = new ArrayList<>();
+        this.releaseDate = "";
+        this.genre = " ";
+    }
+    public Album(String title, String artist, ArrayList<Song> songs, String releaseDate,String genre)
+    {
+        this.title = title;
+        this.artist = artist;
+        this.songs = songs;
+        this.releaseDate = releaseDate;
+        this.genre = genre;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
 
     public String getTitle() {
-        return Title;
+        return title;
     }
 
     public String getArtist() {
@@ -17,7 +41,7 @@ public class Album
     }
 
     public void setTitle(String title) {
-        Title = title;
+        this.title = title;
     }
 
     public void setArtist(String artist) {
@@ -40,10 +64,5 @@ public class Album
         return songs;
     }
 
-    public Album(String title, String artist, ArrayList<Song> songs, String releaseDate) {
-        Title = title;
-        this.artist = artist;
-        this.songs = songs;
-        this.releaseDate = releaseDate;
-    }
+
 }

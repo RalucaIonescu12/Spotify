@@ -1,8 +1,5 @@
 package models;
 
-import java.util.ArrayList;
-import java.util.Queue;
-
 public class SongQueue extends Playlist
 {
 
@@ -13,7 +10,7 @@ public class SongQueue extends Playlist
 
     public void playFromSong(Song song)
     {
-        for (int i=0;i<this.getSongs().size();i++)
+        for (int i = 0; i < this.getSongs().size();i++)
             if(this.getSongs().get(i).equals(song))
             {
                 for (int j=0;j<i;j++)
@@ -21,7 +18,6 @@ public class SongQueue extends Playlist
                 break;
             }
     }
-
 
     public void clearQueue()
     {
