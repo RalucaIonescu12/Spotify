@@ -3,14 +3,24 @@ package models;
 public class Podcast
 {
     private String podcastName, creator;
-    private int duration;
+    private String duration;
     private String topic;
+    public Podcast()
+    {
 
-    public Podcast(String podcastName, String creator, int duration, String topic) {
+    }
+
+    public Podcast(String podcastName, String creator, String duration, String topic) {
         this.podcastName = podcastName;
         this.creator = creator;
         this.duration = duration;
         this.topic = topic;
+    }
+    public Podcast(Podcast p) {
+        this.podcastName = p.podcastName;
+        this.creator = p.creator;
+        this.duration =p.duration;
+        this.topic = p.topic;
     }
 
     public String getPodcastName() {
@@ -29,11 +39,11 @@ public class Podcast
         this.creator = creator;
     }
 
-    public int getDuration() {
+    public String getDuration() {
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(String duration) {
         this.duration = duration;
     }
 

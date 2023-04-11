@@ -1,11 +1,7 @@
 package models;
-
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * ramane o piesa noua in release radar cat timp
- * nu au fost alte 10 melodii released dupa ea
+ * a song remains in Release Radar as long as another 15 songs
+ * haven't been released after it
  * */
 
 public class ReleaseRadar extends Playlist
@@ -17,7 +13,7 @@ public class ReleaseRadar extends Playlist
     }
     @Override
     public void addSong(Song song) {
-        if (numSongsAdded < 10) {
+        if (numSongsAdded < 15) {
             this.getSongs().add(song);
             numSongsAdded++;
         }

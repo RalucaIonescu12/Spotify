@@ -19,7 +19,7 @@ public class Album
     {
         this.title = title;
         this.artist = artist;
-        this.songs = songs;
+        this.songs = new ArrayList<>(songs);
         this.releaseDate = releaseDate;
         this.genre = genre;
     }
@@ -49,7 +49,8 @@ public class Album
     }
 
     public void setSongs(ArrayList<Song> songs) {
-        this.songs = songs;
+
+        this.songs = new ArrayList<>(songs);
     }
 
     public void setReleaseDate(String releaseDate) {

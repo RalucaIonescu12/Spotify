@@ -8,6 +8,10 @@ public class SongQueue extends Playlist
         super("Song Queue");
     }
 
+    public SongQueue(SongQueue sq)
+    {
+        super(sq);
+    }
     public void playFromSong(Song song)
     {
         for (int i = 0; i < this.getSongs().size();i++)
