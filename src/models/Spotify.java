@@ -342,7 +342,6 @@ public class Spotify
         int gasit=0;
         for(Album album: albums)
         {
-            System.out.println(album.getTitle());
             if(album.getTitle().equalsIgnoreCase(albumName) && artist.equalsIgnoreCase(album.getArtist()))
             {
 
@@ -378,12 +377,22 @@ public class Spotify
     }
     public void deleteSongFromPlaylist(String playlistName,String song)
     {
-        Playlist playlist=loggedUser.getPlaylistByName(playlistName);
+        Playlist playlist = loggedUser.getPlaylistByName(playlistName);
         if (playlist.getPlaylistName().equals(""))System.out.println("The playlist doesn't exist.\n");
         else
             loggedUser.getPlaylistByName(playlistName).removeSongByName(song);
 
     }
+
+    private Song getSongByName(String song) {
+        for(Song s : songs)
+            if(s.getTitle().equalsIgnoreCase(song))
+                return new Song(s);
+
+        System.out.println("Song not found!\n");
+        return new Song();
+    }
+
     public int login()
     {
         Scanner scanner = new Scanner(System.in);

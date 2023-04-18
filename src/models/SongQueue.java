@@ -14,13 +14,14 @@ public class SongQueue extends Playlist
     }
     public void playFromSong(Song song)
     {
-        for (int i = 0; i < this.getSongs().size();i++)
-            if(this.getSongs().get(i).equals(song))
+        for (Song s:this.getSongs())
+        {
+            if(s.getTitle().equals(song.getTitle()) && s.getArtist().equals(song.getArtist()))
             {
-                for (int j=0;j<i;j++)
-                    this.getSongs().remove(j);
                 break;
             }
+            else this.getSongs().remove(s);
+        }
     }
 
     public void clearQueue()

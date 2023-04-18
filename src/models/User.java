@@ -42,11 +42,6 @@ public class User
         this.playlists = playlists;
         this.songQueue = songQueue;
     }
-    //////////////////methods/////////////////////////////
-
-
-
-    //////////////getters & setters//////////////////////
     public String getUsername() {
         return username;
     }
@@ -108,16 +103,20 @@ public class User
     }
 
     public void setPlaylists(ArrayList<Playlist> playlists) {
-        this.playlists = (ArrayList<Playlist>) playlists.clone();
+        this.playlists = new ArrayList<>(playlists);
     }
-    ///////////////////////////////////////////////////////////////
 
     public Playlist getPlaylistByName(String name)
     {
-        for (Playlist playlist:playlists)
-            if (playlist.getPlaylistName().equals("name"))
+        Playlist playlist=null;
+        for (Playlist p:playlists)
+            if (p.getPlaylistName().equals(name))
+            {
+                playlist=p;
                 return playlist;
-        return new Playlist();
+            }
+        playlist=new Playlist();
+        return playlist;
     }
     public void addPlaylist(Playlist playlist)
     {

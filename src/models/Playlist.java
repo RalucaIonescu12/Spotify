@@ -72,7 +72,7 @@ public class Playlist
        if(ok==0)System.out.println("The song doesn't exist!");
     }
     public void setSongs(ArrayList<Song> songs) {
-        this.songs = new ArrayList<>(songs);
+        this.songs =songs;
     }
     public void addSong(Song song)
     {
