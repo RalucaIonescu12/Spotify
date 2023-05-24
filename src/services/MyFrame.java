@@ -1,10 +1,9 @@
-package models;
+package services;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.util.Scanner;
 
 public class MyFrame implements ActionListener
@@ -261,6 +260,7 @@ public class MyFrame implements ActionListener
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(login);
                 frame.dispose();
                 Scanner scanner = new Scanner(System.in);
+                spotify.addUser();
 
                 ///new frame
                 JFrame newFrame = new JFrame();

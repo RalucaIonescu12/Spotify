@@ -2,11 +2,13 @@ package models;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Playlist
 {
     private String playlistName,description;
-    private ArrayList<Song> songs;
+
+    private List<Song> songs;
     public Playlist()
     {
         this.playlistName = "";
@@ -50,7 +52,7 @@ public class Playlist
         this.playlistName = playlistName;
     }
 
-    public ArrayList<Song> getSongs() {
+    public List<Song> getSongs() {
         return songs;
     }
     public void removeSong(Song song)
@@ -71,7 +73,7 @@ public class Playlist
        }
        if(ok==0)System.out.println("The song doesn't exist!");
     }
-    public void setSongs(ArrayList<Song> songs) {
+    public void setSongs(List<Song> songs) {
         this.songs =songs;
     }
     public void addSong(Song song)

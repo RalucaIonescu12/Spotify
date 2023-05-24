@@ -1,17 +1,17 @@
 package models;
 
 import java.util.ArrayList;
-
+import java.util.List;
 public class User
 {
     private String username,firstName,lastName,password,email,subscriptionType;
-    private ArrayList<Playlist> playlists;
+    private List<Playlist> playlists;
     private SongQueue songQueue;
     public User()
     {
         this.playlists = new ArrayList<>();
         this.songQueue = new SongQueue();
-
+        this.username = "";
     }
     public User(String username,String firstName, String lastName, String password, String email, String subscriptionType) {
         this.firstName = firstName;
@@ -33,7 +33,7 @@ public class User
         this.songQueue = new SongQueue(user.songQueue);
         this.username = user.username;
     }
-    public User(String firstName, String lastName, String password, String email, String subscriptionType, ArrayList<Playlist> playlists, SongQueue songQueue) {
+    public User(String firstName, String lastName, String password, String email, String subscriptionType, List<Playlist> playlists, SongQueue songQueue) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
@@ -59,7 +59,7 @@ public class User
     }
 
     public void setSongQueue(SongQueue songQueue) {
-        this.songQueue = new SongQueue(songQueue);
+        this.songQueue = songQueue;
     }
 
     public void setFirstName(String firstName) {
@@ -98,11 +98,11 @@ public class User
         this.subscriptionType = subscriptionType;
     }
 
-    public ArrayList<Playlist> getPlaylists() {
+    public List<Playlist> getPlaylists() {
         return playlists;
     }
 
-    public void setPlaylists(ArrayList<Playlist> playlists) {
+    public void setPlaylists(List<Playlist> playlists) {
         this.playlists = new ArrayList<>(playlists);
     }
 

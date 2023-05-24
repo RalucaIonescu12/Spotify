@@ -4,6 +4,7 @@ package models;
  * haven't been released after it
  * */
 
+//TODO:pastrez sau nu releaseradar
 public class ReleaseRadar extends Playlist
 {
     private static int numSongsAdded = 0;
