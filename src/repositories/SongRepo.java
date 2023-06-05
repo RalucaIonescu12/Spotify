@@ -30,7 +30,8 @@ public class SongRepo {
                 String genre = resultSet.getString("genre");
                 String albumTitle = resultSet.getString("albumTitle");
                 String duration = resultSet.getString("duration");
-                if (resultSet.getString("features") != null) {
+                if (resultSet.getString("features") != null)
+                {
                     String featuress = resultSet.getString("features");
                     Set<String> features = new HashSet<>();
                     features.addAll(Arrays.asList(featuress.split(", ")));
@@ -54,7 +55,6 @@ public class SongRepo {
                 }
                 songs.add(song);
             }
-            System.out.println("~Song data retrieved.");
             return songs;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -111,12 +111,12 @@ public class SongRepo {
         return songs;
     }
 
-    public static List<Song> getSongsByAlbum(String albumID) {
+    public static List<Song> getSongsByAlbum(Integer albumID) {
         String selectSql = "SELECT * FROM Song WHERE albumID = ?;";
         List<Song> songs = new ArrayList<>();
 
         try (PreparedStatement stmt = connection.prepareStatement(selectSql)) {
-            stmt.setString(1, albumID);
+            stmt.setInt(1, albumID);
             ResultSet resultSet = stmt.executeQuery();
 
             while (resultSet.next())
@@ -140,6 +140,7 @@ public class SongRepo {
                     song.setArtist(artist);
                     song.setAlbum(albumTitle);
                     song.setFeatures(features);
+                    song.setAlbumID(albumID);
                 }
                 else {
                     song.setSongId(songID);
@@ -148,6 +149,8 @@ public class SongRepo {
                     song.setGenre(genre);
                     song.setArtist(artist);
                     song.setAlbum(albumTitle);
+                    song.setAlbumID(albumID);
+
                 }
                 songs.add(song);
 
@@ -158,11 +161,32 @@ public class SongRepo {
 
         return songs;
     }
+    public static Integer getSongIdByTitle(String songName)
+    {
+        String q="Select * from song where LOWER( title ) = ? ; ";
+        PreparedStatement preparedStatement;
+        try {
+            preparedStatement = connection.prepareStatement(q);
+            preparedStatement.setString(1,songName.toLowerCase());
+            ResultSet resultSet=preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getInt("songID");
+            } else {
+                return null; // or handle the case when no matching song is found
+            }
+
+
+        } catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
     public static void addSong(Song song) {
         try
         {
             String query = "INSERT INTO Song (songID, title, genre, artist, features, albumTitle, duration, albumID) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, song.getSongId());
             statement.setString(2, song.getTitle());
@@ -177,35 +201,8 @@ public class SongRepo {
             }
             statement.setString(6, song.getAlbum());
             statement.setString(7, song.getDuration());
-            statement.setNull(8, Types.INTEGER);
-            statement.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Error when adding Song!!");
-        }
-    }
-    public static void addSongFromAlbum(Song song,Integer albumID) {
-        try
-        {
-            String query = "INSERT INTO Song (songID, title, genre, artist, features, albumTitle, duration, albumID) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setInt(1, song.getSongId());
-            statement.setString(2, song.getTitle());
-            statement.setString(3, song.getGenre());
-            statement.setString(4, song.getArtist());
-            if(!song.getFeatures().isEmpty())
-            {
-                statement.setString(5, String.join(", ", song.getFeatures()));
-            }
-            else {
-                statement.setNull(5,java.sql.Types.VARCHAR);
-            }
-            statement.setString(6, song.getAlbum());
-            statement.setString(7, song.getDuration());
-            statement.setInt(8, albumID);
-
+            statement.setInt(8, song.getAlbumID());
             statement.executeUpdate();
 
         } catch (SQLException e) {
@@ -226,41 +223,12 @@ public class SongRepo {
 
             statement.executeUpdate();
 
-        } catch (SQLException e) {
+        } catch (SQLException e)
+        {
             e.printStackTrace();
             System.out.println("Error when adding Song in PlaylistsSongs!!");
         }
 
     }
 
-//    public void insertSong(Song song)
-//    {
-//
-//        try {
-//            String query = "INSERT INTO song (title, genre, artist, features, duration, albumID) VALUES ( ?, ?, ?, ?, ?, ?)";
-//            Connection connection= DatabaseConfiguration.getDatabaseConnection();
-//            PreparedStatement statement = connection.prepareStatement(query);
-//
-//            statement.setInt(1,song.getNumSongsAdded());
-//            statement.setString(2, song.getTitle());
-//            statement.setString(3, song.getGenre());
-//            statement.setString(4, song.getArtist());
-//
-//            if(song.getFeatures().isEmpty())  statement.setNull(5, java.sql.Types.VARCHAR);
-//            else statement.setString(5, String.join(", ", song.getFeatures()));
-//
-//            statement.setString(6, song.getDuration());
-//            if (song.getAlbumID() == null)
-//                statement.setNull(7, Types.INTEGER);
-//            else statement.setInt(7,song.getAlbumID());
-//            statement.executeUpdate();
-//
-//            statement.close();
-//            connection.close();
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            System.out.println("Erorr at adding song in database");
-//        }
-//    }
 }

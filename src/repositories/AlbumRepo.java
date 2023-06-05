@@ -10,7 +10,7 @@ import java.sql.*;
 import java.util.*;
 
 public class AlbumRepo {
-    private static Connection connection = DatabaseConfiguration.getDatabaseConnection();
+    private static final Connection connection = DatabaseConfiguration.getDatabaseConnection();
     public AlbumRepo(){}
 
     public static Set<Album> addData()
@@ -25,17 +25,17 @@ public class AlbumRepo {
             while (resultSet.next())
             {
 
-                String albumID = resultSet.getString("albumID");
+                Integer albumID = resultSet.getInt("albumID");
                 String title = resultSet.getString("title");
                 String artist = resultSet.getString("artist");
                 String genre = resultSet.getString("genre");
                 String releaseDate = resultSet.getString("releaseDate");
-                Album album =new Album(title,artist,releaseDate,genre);
+                Album album =new Album(title,artist,releaseDate,genre,albumID);
                 List<Song> songs = SongRepo.getSongsByAlbum(albumID);
                 album.setSongs(songs);
                 albums.add(album);
             }
-            System.out.println("~Album data retrieved.");
+
             return albums;
 
         } catch (SQLException e) {
@@ -56,8 +56,9 @@ public class AlbumRepo {
             statement.setString(5, album.getReleaseDate());
             statement.executeUpdate();
             System.out.println("Album added successfully!");
-        } catch (SQLException e) {
-
+        }
+        catch (SQLException e)
+        {
             e.printStackTrace();
         }
     }

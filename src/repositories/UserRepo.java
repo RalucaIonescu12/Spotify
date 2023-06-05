@@ -19,9 +19,7 @@ public class UserRepo {
     public static List<User> addData()
     {
         String selectSql = "SELECT * FROM USERR;";
-
         List<User> users=new ArrayList<User>();
-
 
         try (Statement stmt = connection.createStatement()) {
             ResultSet resultSet = stmt.executeQuery(selectSql);
@@ -35,14 +33,15 @@ public class UserRepo {
                 String email = resultSet.getString("email");
                 String password = resultSet.getString("password");
                 String subscriptionType=resultSet.getString("subscriptionType");
-                List<Playlist> playlists = PlaylistsRepo.getPlaylistsByUser(username);
+                List<Playlist> playlists;
+                playlists=PlaylistsRepo.getPlaylistsByUser(username);
                 User user = new User(username, firstname, lastname,password, email, subscriptionType);
-                SongQueue songQueue = SongQueueRepo.getSongQueueByUsername(username);
+                SongQueue songQueue =SongQueueRepo.getSongQueueByUsername(username);
                 user.setPlaylists(playlists);
+                System.out.println("Pt userul "+user.getUsername()+" sunt "+ user.getPlaylists().size()+" playlisturi!");
                 user.setSongQueue(songQueue);
                 users.add(user);
             }
-            System.out.println("~User data retrieved.");
             return users;
 
         } catch (SQLException e) {
@@ -77,64 +76,20 @@ public class UserRepo {
         }
         return null;
     }
-
-
-
-
-
-
-
-//    public static boolean addSongToQueueByUsername(String username, Song song) {
-//        try {
-//            SongQueue songQueue = SongQueueRepo.getSongQueueByUsername(username);
-//            if (songQueue != null)
-//            {
-//                List<Song> songs = songQueue.getSongs();
-//                songs.add(song);
-//                songQueue.setSongs(songs);
-//                updateSongQueue(username, songQueue);
-//
-//                System.out.println("Song added to the queue successfully for user: " + username);
-//                return true;
-//            }
-//            else {
-//                System.out.println("Song queue not found for user: " + username);
-//                return false;
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            System.out.println("Error at function addSongToSongQueue.");
-//            return false;
-//        }
-//    }
-//    public static void updateSongQueue(String username, SongQueue songQueue) {
-//        try {
-//            String updateSql = "UPDATE Playlist SET description = ? WHERE playlistName = ? AND username = ?";
-//
-//            PreparedStatement statement = connection.prepareStatement(updateSql);
-//            statement.setString(1, songQueue.getDescription());
-//            statement.setString(2, "SongQueue");
-//            statement.setString(3, username);
-//            statement.executeUpdate();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
-    public static void addPlaylistToUser(String username, Playlist playlist) {
+    public static void addPlaylistToUser(String username, Playlist playlist)
+    {
         try {
             String insertPlaylistSql = "INSERT INTO Playlist (playlistName, username, description) VALUES (?, ?, ?)";
             PreparedStatement playlistStatement = connection.prepareStatement(insertPlaylistSql);
             playlistStatement.setString(1, playlist.getPlaylistName());
             playlistStatement.setString(2, username);
-            playlistStatement.setString(3, playlist.getDescription());
+            if(playlist.getDescription()!=null)
+                playlistStatement.setString(3, playlist.getDescription());
+            else
+                playlistStatement.setNull(3,  java.sql.Types.VARCHAR);
             playlistStatement.executeUpdate();
-
-            for(Song song:playlist.getSongs())
-            {
-                SongRepo.addSongIntoPlaylistsSongs(song,playlist.getPlaylistName());
-            }
-
-        } catch (SQLException e) {
+        } catch (SQLException e)
+        {
             e.printStackTrace();
             System.out.println("Error at addPlaylistToUser");
         }

@@ -177,14 +177,17 @@ public class MyFrame implements ActionListener
                     @Override
                     public void actionPerformed(ActionEvent e)
                     {
-                        System.out.println("Enter Artist Name.");
-                        System.out.print(">");
-                        String artist = scanner.nextLine();
-                        System.out.println("Enter Song Title.");
-                        System.out.print(">");
-                        String title = scanner.nextLine();
+                        Integer var;
+                        do {
+                            System.out.println("Enter Artist Name.");
+                            System.out.print(">");
+                            String artist = scanner.nextLine();
+                            System.out.println("Enter Song Title.");
+                            System.out.print(">");
+                            String title = scanner.nextLine();
 
-                        spotify.addSongInQueue(artist,title);
+                            var=spotify.addSongInQueue(artist, title);
+                        }while(var.equals(1));
                     }
                 });
 
@@ -362,15 +365,19 @@ public class MyFrame implements ActionListener
                 putSongInQueue.setBounds(100,360,250,40);
                 newContainer.add(putSongInQueue);
                 putSongInQueue.setBackground(new Color(41, 159, 41));
-                putSongInQueue.addActionListener(e16 -> {
-                    System.out.println("Enter Artist Name.");
-                    System.out.print(">");
-                    String artist = scanner.nextLine();
-                    System.out.println("Enter Song Title.");
-                    System.out.print(">");
-                    String title = scanner.nextLine();
+                putSongInQueue.addActionListener(e16 ->
+                {
+                    Integer var;
+                    do {
+                        System.out.println("Enter Artist Name.");
+                        System.out.print(">");
+                        String artist = scanner.nextLine();
+                        System.out.println("Enter Song Title.");
+                        System.out.print(">");
+                        String title = scanner.nextLine();
 
-                    spotify.addSongInQueue(artist,title);
+                        var=spotify.addSongInQueue(artist, title);
+                    }while(var.equals(1));
                 });
 
 

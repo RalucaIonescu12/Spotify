@@ -32,8 +32,8 @@ public class PlaylistsRepo {
                 playlists.add(playlist);
 
             }
-
             return playlists;
+
         } catch (SQLException e) {
             e.printStackTrace();
             return null ;
@@ -47,7 +47,7 @@ public class PlaylistsRepo {
         try (PreparedStatement stmt = connection.prepareStatement(selectSql)) {
             stmt.setString(1, username);
             ResultSet resultSet = stmt.executeQuery();
-
+            System.out.println("Playlisturi gasite in baza de date:"+resultSet.getFetchSize());
             while (resultSet.next())
             {
                 String playlistName = resultSet.getString("playlistName");
@@ -56,15 +56,55 @@ public class PlaylistsRepo {
                 List<Song> songs = SongRepo.getSongsByPlaylist(playlistName);
                 playlist.setSongs(songs);
                 playlists.add(playlist);
+                System.out.println("Playlist:"+ playlistName);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Error at getPlaylistsByUsername.");
         }
-
         return playlists;
     }
+    public static void deleteSongFromPlaylist(String playlistName, String songName)
+    {
+        String q="Delete from PlaylistsSongs where playlistName= ? and songID= ? ";
+        try {
+            PreparedStatement preparedStatement=connection.prepareStatement(q);
+            preparedStatement.setString(1,playlistName);
 
+            Integer songID=SongRepo.getSongIdByTitle(songName);
+
+            preparedStatement.setInt(2,songID);
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public static void addSongInPlaylistByPlaylistName(String playlistName, Song song)
+    {
+        try
+        {
+
+            String query = "INSERT INTO PlaylistsSongs (playlistName,songID) " +
+                    "VALUES (?, ?)";
+
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1,playlistName);
+            statement.setInt(2, song.getSongId());
+
+            statement.executeUpdate();
+
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            System.out.println("Error when adding Song in PlaylistsSongs!!");
+        }
+
+    }
 
 }

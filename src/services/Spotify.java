@@ -2,9 +2,7 @@ package services;
 
 import database.RetrieveData;
 import models.*;
-import repositories.AlbumRepo;
-import repositories.SongRepo;
-import repositories.UserRepo;
+import repositories.*;
 
 import java.util.*;
 
@@ -26,14 +24,14 @@ public class Spotify
     {
         retrieveData.createTables();
         retrieveData.insertIntoDatabase();
-
-        songs =new ArrayList<>();
-        users = new ArrayList<>();
-        albums= new HashSet<>();
-        podcasts=new ArrayList<>();
-        loggedUser = new User();
-        releaseRadar=new ReleaseRadar();
-        retrieveData = new RetrieveData();
+//
+//        songs =new ArrayList<>();
+//        users = new ArrayList<>();
+//        albums= new HashSet<>();
+//        podcasts=new ArrayList<>();
+//        loggedUser = new User();
+//        releaseRadar=new ReleaseRadar();
+//        retrieveData = new RetrieveData();
         loadData();
     }
     public void loadData(){
@@ -89,11 +87,26 @@ public class Spotify
         Song song;
         song = getSongByNameAndArtist(songName,artist);
 
-        if(song == null)
-            System.out.println("This song does not exist!");
-        else {
-            loggedUser.getSongQueue().playFromSong(song);
+        if(song != null)
+        {
             System.out.println("**** Playing " + song.getTitle()+ " by "+ song.getArtist() + " ***\n");
+            for(Song s:loggedUser.getSongQueue().getSongs())
+            {
+                if (!s.equals(song)) break;
+                else
+                {
+                    PlaylistsRepo.deleteSongFromPlaylist(loggedUser.getSongQueue().getPlaylistName(),song.getTitle());
+                    loggedUser.getSongQueue().playFromSong(song);
+                }
+            }
+            loadData();
+            for(User user: users)
+                if(user.getUsername().equals(loggedUser.getUsername()))
+                {
+                    loggedUser = user ;
+                    break;
+                }
+
         }
 
     }
@@ -208,6 +221,7 @@ public class Spotify
             song.setDuration(duration);
             song.setArtist(artist);
             song.setAlbum(title);
+            song.setAlbumID(-1);
         }
         else {
             song.setTitle(title);
@@ -216,12 +230,12 @@ public class Spotify
             song.setArtist(artist);
             song.setAlbum(title);
             song.setFeatures(features);
-
+            song.setSongId(-1);
         }
         SongRepo.addSong(song);
         loadData();
         releaseRadar.addSong(song);
-        System.out.println("Song "+title+"added! $$$ ");
+        System.out.println("Song "+title+" added! $$$ ");
     }
 
     private void addSong(Song song)
@@ -263,6 +277,7 @@ public class Spotify
             song.setDuration(duration);
             song.setArtist(artist);
             song.setAlbum(albumTitle);
+            song.setAlbumID(album.getAlbumID());
             albumSongs.add(song);
             System.out.println("Done?(1->No / 0->Yes)");
             System.out.print(">");
@@ -276,7 +291,7 @@ public class Spotify
         album.setGenre(genre);
         AlbumRepo.addAlbum(album);
         for(Song song :albumSongs)
-            SongRepo.addSongFromAlbum(song,album.getAlbumID());
+            SongRepo.addSong(song);
         loadData();
         System.out.print("Album ");
         System.out.print(album.getTitle());
@@ -324,7 +339,7 @@ public class Spotify
             for(Song song: album.getSongs())
             {
                 if(song.getFeatures().isEmpty())
-                    System.out.println("         " + i +". ID=" +song.getSongId()+" - " +song.getTitle() + " - " + song.getDuration());
+                    System.out.println("         " + i +". " +song.getTitle() + " - " + song.getDuration());
                 else {
                     System.out.print("         " + i +"." + song.getTitle() +",  feat. " );
 
@@ -344,7 +359,7 @@ public class Spotify
         for(Song song: songs)
         {
             if(song.getFeatures().isEmpty())
-                System.out.println("         " + i +". ID=" +song.getSongId()+" - " + song.getTitle() + " - " + song.getArtist()+ " - "+ song.getDuration());
+                System.out.println("         " + i +". "+ song.getTitle() + " - " + song.getArtist()+ " - "+ song.getDuration());
             else {
                 System.out.print("         " + i +"." + song.getTitle() +",  feat. " );
 
@@ -366,10 +381,7 @@ public class Spotify
         }
         System.out.println();
     }
-    public void playSong(Song song)
-    {
 
-    }
     public void printQueue()
     {
         System.out.println("-- Your Queque:");
@@ -388,7 +400,6 @@ public class Spotify
         {
             if(album.getTitle().equalsIgnoreCase(albumName) && artist.equalsIgnoreCase(album.getArtist()))
             {
-
                 gasit=1;
                 System.out.println("\n---Information about " + albumName + " by "+album.getArtist() + "----");
                 System.out.println("     Released on : " + album.getReleaseDate());
@@ -400,7 +411,8 @@ public class Spotify
                 {
                     if(song.getFeatures().isEmpty())
                     System.out.println("         " + i +"." + song.getTitle() + " - " + song.getDuration());
-                    else {
+                    else
+                    {
                         System.out.print("         " + i +"." + song.getTitle() +",  feat. " );
 
 
@@ -419,13 +431,23 @@ public class Spotify
 
 
     }
-    public void deleteSongFromPlaylist(String playlistName,String song)
+    public void deleteSongFromPlaylist(String playlistName,String songName)
     {
         Playlist playlist = loggedUser.getPlaylistByName(playlistName);
         if (playlist.getPlaylistName().equals(""))System.out.println("The playlist doesn't exist.\n");
         else
-            loggedUser.getPlaylistByName(playlistName).removeSongByName(song);
+        {
+            PlaylistsRepo.deleteSongFromPlaylist(playlistName,songName);
+            System.out.println("Song "+songName+" deleted from playlist "+playlistName);
+            loadData();
+            for(User user: users)
+                if(user.getUsername().equals(loggedUser.getUsername()))
+                {
+                    loggedUser = user ;
+                    break;
+                }
 
+        }
     }
 
     private Song getSongByName(String song) {
@@ -463,7 +485,8 @@ public class Spotify
 
         int i=1;
         int ok=0;
-        do{
+        do
+        {
             System.out.println("Enter password.");
             System.out.print(">");
             String password= scanner.nextLine();
@@ -480,7 +503,8 @@ public class Spotify
                 i+=1;
             }
 
-        }while(i<=3);
+        }
+        while(i<=3);
 
         if (ok==0)
         {
@@ -543,24 +567,39 @@ public class Spotify
         }
 
         UserRepo.addPlaylistToUser(loggedUser.getUsername(),playlist);
+        for(Song song: playlist.getSongs())
+            SongRepo.addSongIntoPlaylistsSongs(song,playlistName);
         loadData();
         for(User user: users)
             if(user.getUsername().equals(loggedUser.getUsername()))
-                loggedUser=user;
+            {
+                loggedUser = user ;
+                System.out.println(" Playlisturi gasite in baza de date: "+loggedUser.getUsername()+" cu playlisturi "+ loggedUser.getPlaylists().size());
+                break;
+            }
 
         System.out.println("Playlist " + playlistName + " added!\n" );
     }
 
 
-    public void addSongInQueue(String artist, String title)
+    public Integer addSongInQueue(String artist, String title)
     {
         Song song = getSongByNameAndArtist(title,artist);
-        if (song.getTitle().equals("")) return;
+        if ( song.getTitle().equals("")) return 1;
         else {
-            loggedUser.getSongQueue().addSong(song);
-
+//            loggedUser.getSongQueue().addSong(song);
+            SongQueueRepo.addSongInQueueForUser(loggedUser.getUsername(),song);
             System.out.println("Song " + song.getTitle() + " added in Queue.\n");
+            loadData();
+            for(User user: users)
+                if(user.getUsername().equals(loggedUser.getUsername()))
+                {
+                    loggedUser = user ;
+                    break;
+                }
+            return 0;
         }
+
     }
 
     public static List<Podcast> getPodcasts() {
@@ -584,7 +623,8 @@ public class Spotify
             System.out.println("     Songs:");
             int i = 0;
 
-            for (Song song : p.getSongs()) {
+            for (Song song : p.getSongs())
+            {
                 if (song.getFeatures().isEmpty())
                     System.out.println("         " + i + "." + song.getTitle() + " - " + song.getArtist() + " - " +song.getDuration());
                 else
@@ -601,7 +641,6 @@ public class Spotify
                 i += 1;
             }
             System.out.println("\n~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~");
-            break;
         }
     }
 

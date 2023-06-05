@@ -103,7 +103,7 @@ public class User
     }
 
     public void setPlaylists(List<Playlist> playlists) {
-        this.playlists = new ArrayList<>(playlists);
+        this.playlists = playlists;
     }
 
     public Playlist getPlaylistByName(String name)
@@ -122,8 +122,6 @@ public class User
     {
         this.playlists.add(playlist);
     }
-
-
 
 
 

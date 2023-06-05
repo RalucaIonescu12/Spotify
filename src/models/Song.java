@@ -11,6 +11,15 @@ public class Song
     private String duration;
     private Integer songId;
     private String album;
+    private Integer albumID;
+
+    public Integer getAlbumID() {
+        return albumID;
+    }
+
+    public void setAlbumID(Integer albumID) {
+        this.albumID = albumID;
+    }
 
     public Set<String> getFeatures() {
         return features;
@@ -24,13 +33,7 @@ public class Song
         this.songId = songId;
     }
 
-    public static Integer getNumSongsAdded() {
-        return numSongsAdded;
-    }
 
-    public static void setNumSongsAdded(Integer numSongsAdded) {
-        Song.numSongsAdded = numSongsAdded;
-    }
 
 
     public Song()
@@ -40,8 +43,9 @@ public class Song
         this.artist = null;
         this.duration = null;
         this.album= null;
-        numSongsAdded+=1;
+        numSongsAdded++;
         this.songId=numSongsAdded;
+        this.albumID=-1;
     }
     public Song(Song song)
     {
@@ -52,17 +56,19 @@ public class Song
         this.album=  song.album;
         this.features=song.features;
         this.songId=song.songId;
+        this.albumID=song.albumID;
     }
-
-    public Song(String title, String genre, String artist,String duration, String album,Integer songID) {
-        this.title = title;
-        this.genre = genre;
-        this.artist = artist;
-        this.duration = duration;
-        this.album = album;
-        this.songId = numSongsAdded;
-    }
-    public Song(String title, String genre, String artist,String duration, String album, Set<String> features,Integer songId) {
+//
+//    public Song(String title, String genre, String artist,String duration, String album) {
+//        this.title = title;
+//        this.genre = genre;
+//        this.artist = artist;
+//        this.duration = duration;
+//        this.album = album;
+//        this.songId = numSongsAdded;
+//        this.albumID=null;
+//    }
+    public Song(String title, String genre, String artist,String duration, String album, Set<String> features,Integer songId,Integer albumID) {
         this.title = title;
         this.genre = genre;
         this.artist = artist;
@@ -70,6 +76,7 @@ public class Song
         this.album= album;
         this.features= new HashSet<>(features);
         this.songId=songId;
+        this.albumID=albumID;
     }
 
     public void setFeatures(Set<String> features) {

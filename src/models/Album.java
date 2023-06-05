@@ -7,6 +7,9 @@ public class Album
 {
     private String title, artist,genre;
     private List<Song> songs;
+    private String releaseDate;
+    Integer albumID;
+    private static Integer numAlbumsAdded = 4;
 
     public Integer getAlbumID() {
         return albumID;
@@ -24,9 +27,7 @@ public class Album
         Album.numAlbumsAdded = numAlbumsAdded;
     }
 
-    private String releaseDate;
-    Integer albumID;
-    private static Integer numAlbumsAdded = 4;
+
 
     public Album()
     {
@@ -36,16 +37,15 @@ public class Album
         this.releaseDate = "";
         this.genre = " ";
         numAlbumsAdded++;
+        this.albumID=numAlbumsAdded;
     }
-    public Album(String title, String artist, String releaseDate,String genre)
-    {
+    public Album(String title, String artist, String releaseDate,String genre,Integer albumID) {
         this.title = title;
         this.artist = artist;
         this.songs = new ArrayList<>();
         this.releaseDate = releaseDate;
         this.genre = genre;
-
-        numAlbumsAdded++;
+        this.albumID = albumID;
     }
     public Album(String title, String artist, List<Song> songs, String releaseDate,String genre)
     {
@@ -54,8 +54,8 @@ public class Album
         this.songs = new ArrayList<>(songs);
         this.releaseDate = releaseDate;
         this.genre = genre;
-
         numAlbumsAdded++;
+        this.albumID=numAlbumsAdded;
     }
 
     public String getGenre() {
