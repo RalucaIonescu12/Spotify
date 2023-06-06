@@ -11,6 +11,6 @@ public class Main {
 }
 
 
-////TODO:addUser, New album, verifica show queue, skip to song in queue,
+////TODO: New album, verifica show queue, skip to song in queue,
 
 

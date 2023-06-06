@@ -1,18 +1,41 @@
 package models;
 
+import database.DatabaseConfiguration;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Song
 {
-    private static Integer numSongsAdded = 16;
+    private static Integer numSongsAdded ;
     private String title,genre,artist;
+    private static Connection connection = DatabaseConfiguration.getDatabaseConnection();
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Song song = (Song) o;
+        return Objects.equals(title, song.title) && Objects.equals(genre, song.genre) && Objects.equals(artist, song.artist) && Objects.equals(features, song.features) && Objects.equals(duration, song.duration) && Objects.equals(songId, song.songId) && Objects.equals(album, song.album) && Objects.equals(albumID, song.albumID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, genre, artist, features, duration, songId, album, albumID);
+    }
+
     private Set<String> features=new HashSet<>();
     private String duration;
     private Integer songId;
     private String album;
     private Integer albumID;
-
+//    static{
+//        numSongsAdded++;
+//    }
     public Integer getAlbumID() {
         return albumID;
     }
@@ -34,8 +57,6 @@ public class Song
     }
 
 
-
-
     public Song()
     {
         this.title = "";
@@ -43,8 +64,6 @@ public class Song
         this.artist = null;
         this.duration = null;
         this.album= null;
-        numSongsAdded++;
-        this.songId=numSongsAdded;
         this.albumID=-1;
     }
     public Song(Song song)
@@ -121,6 +140,30 @@ public class Song
 
     public String  getDuration() {
         return duration;
+    }
+    public static Integer setNumSongsAdded(){
+        numSongsAdded=numSongsAdded+1;
+        return numSongsAdded;
+    }
+    public static void countNumberSongs()
+    {
+        String q="Select * from song order by songID desc";
+        PreparedStatement preparedStatement;
+        try {
+            preparedStatement = connection.prepareStatement(q);
+            ResultSet resultSet=preparedStatement.executeQuery();
+
+            int nr = 0;
+            if (resultSet.next()) 
+            {
+                nr= resultSet.getInt("songID");
+            }
+            numSongsAdded = nr;
+
+        } catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
 

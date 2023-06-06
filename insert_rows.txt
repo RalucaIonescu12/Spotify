@@ -1,0 +1,62 @@
+INSERT INTO  Userr (username, firstname, lastname, email, subscriptionType, password)
+VALUES ('AndreiRadu', 'Andrei', 'Radu', 'andreiradu@yahoo.com', 'Premium', '123456');
+INSERT INTO Userr (username, firstname, lastname, email, subscriptionType, password)
+VALUES ('IoanaStoica', 'Ioana', 'Stoica', 'ioanastoica@yahoo.com', 'Premium', '123456');
+INSERT INTO Userr (username, firstname, lastname, email, subscriptionType, password)
+VALUES ('CristinaGrigore', 'Cristina', 'Grigore', 'cristinagrigore@yahoo.com', 'Student', '123456');
+INSERT INTO Userr (username, firstname, lastname, email, subscriptionType, password)
+VALUES ('MihaiNeagu', 'Mihai', 'Neagu', 'mihaineagu@yahoo.com', 'Premium', '123456');
+INSERT INTO Userr (username, firstname, lastname, email, subscriptionType, password)
+VALUES ('BiancaRadulescu', 'Bianca', 'Radulescu', 'biancaradulescu@yahoo.com', 'Student', '123456');
+INSERT INTO Userr (username, firstname, lastname, email, subscriptionType, password)
+VALUES ('RalucaIonescu', 'Raluca', 'Ionescu', 'ralucaionescu@yahoo.com', 'student', '123456');
+INSERT INTO Song (songID, title, genre, artist, features, duration, albumID,albumTitle)
+VALUES (1, 'Rockin', 'r&b', 'The Weeknd', NULL, '3:06',NULL,null);
+INSERT INTO Song (songID, title, genre, artist, features, duration, albumID,albumTitle)
+VALUES (13, 'Self Care', 'Hip-Hop/Rap', 'Mac Miller', NULL, '3:06', NULL,null);
+INSERT INTO Song (songID, title, genre, artist, features, duration, albumID,albumTitle)
+VALUES (14, 'She', 'Hip-Hop/Rap', 'Tyler, The Creator', 'Frank Ocean', '3:23', NULL,null);
+INSERT INTO Song (songID, title, genre, artist, features, duration, albumID,albumTitle)
+VALUES (15, 'Seigfried', 'r&b/Soul', 'Frank Ocean', NULL, '3:12', NULL,null);
+INSERT INTO Song (songID, title, genre, artist, features, duration, albumID,albumTitle)
+VALUES (16, 'Nebuniee', 'Nebunieee', 'Nebunieee', NULL, 'Nebuniee', NULL,null);
+INSERT INTO album (albumID, title, artist, genre, releaseDate)
+VALUES (1, 'Hard to Imagine', 'The Neighbourhood', 'alternative', '12.03.2018');
+INSERT INTO Song (songID, title, genre, artist, features, duration, albumID,albumTitle)
+VALUES (2, 'Softcore', 'alternative', 'The Neighbourhood', NULL, '3:18', 1,'Hard to Imagine');
+INSERT INTO Song (songID, title, genre, artist, features, duration, albumID,albumTitle)
+VALUES (3, 'Scary Love', 'alternative', 'The Neighbourhood', NULL, '4:14', 1,'Hard to Imagine');
+INSERT INTO Song (songID, title, genre, artist, features, duration, albumID,albumTitle)
+VALUES (4, 'Nervous', 'alternative', 'The Neighbourhood', NULL, '3:48', 1,'Hard to Imagine');
+INSERT INTO Song (songID, title, genre, artist, features, duration, albumID,albumTitle)
+VALUES (5, 'Blue', 'alternative', 'The Neighbourhood', NULL, '2:48', 1,'Hard to Imagine');
+INSERT INTO Song (songID, title, genre, artist, features, duration, albumID,albumTitle)
+VALUES (6, 'Sadderdaze', 'alternative', 'The Neighbourhood', NULL, '3:48', 1,'Hard to Imagine');
+INSERT INTO Song (songID, title, genre, artist, features, duration, albumID,albumTitle)
+VALUES (7, 'Compass', 'alternative', 'The Neighbourhood', NULL, '3:48', 1,'Hard to Imagine');
+INSERT INTO album (albumID, title, artist, genre, releaseDate)
+VALUES (2, 'Ringos desert', 'ZHU', 'electronic', '10.02.2017');
+INSERT INTO Song (songID, title, genre, artist, features, duration, albumID,albumTitle)
+VALUES (8, 'Still want you', 'electronic', 'ZHU', 'Karnaval Blues', '3:18', 2,'Ringos desert');
+INSERT INTO Song (songID, title, genre, artist, features, duration, albumID,albumTitle)
+VALUES (9, 'Save me', 'electronic', 'ZHU', 'Herizen', '4:14', 2,'Ringos desert');
+INSERT INTO Song (songID, title, genre, artist, features, duration, albumID,albumTitle)
+VALUES (10, 'Guilty Love', 'electronic', 'ZHU', NULL, '3:48', 2,'Ringos desert');
+INSERT INTO Song (songID, title, genre, artist, features, duration, albumID,albumTitle)
+VALUES (11, 'My life', 'electronic', 'ZHU', 'Tame Impala', '2:48', 2,'Ringos desert');
+INSERT INTO Song (songID, title, genre, artist, features, duration, albumID,albumTitle)
+VALUES (12, 'Drowning', 'electronic', 'ZHU', NULL, '3:48', 2,'Ringos desert');
+INSERT INTO Playlist (playlistName, username, description)
+VALUES ('SongQueueRI', 'RalucaIonescu', "Raluca Ionescu's personal SongQueue!");
+INSERT INTO Playlist (playlistName, username, description)
+VALUES ('SongQueueAR', 'AndreiRadu', "Andrei Radu's personal SongQueue!");
+INSERT INTO Playlist (playlistName, username, description)
+VALUES ('SongQueueIS', 'IoanaStoica', "Ioana Stoica's personal SongQueue!");
+INSERT INTO Playlist (playlistName, username, description)
+VALUES ('SongQueueCG', 'CristinaGrigore', "Cristina Grigore's personal SongQueue!");
+INSERT INTO Playlist (playlistName, username, description)
+VALUES ('SongQueueBR', 'BiancaRadulescu', "Bianca Radulescu's personal SongQueue!");
+Insert into ReleaseRadar(playlistName, numSongsAdded)
+values('ReleaseRadar',0);
+INSERT INTO Playlist (playlistName, description)
+VALUES ('ReleaseRadar', "Here are the lastest released songs!");

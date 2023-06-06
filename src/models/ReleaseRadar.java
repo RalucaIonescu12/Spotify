@@ -7,7 +7,7 @@ package models;
 //TODO:pastrez sau nu releaseradar
 public class ReleaseRadar extends Playlist
 {
-    private static int numSongsAdded = 0;
+    private static int numSongsAdded;
     public ReleaseRadar()
     {
         super("Release Radar");
@@ -27,5 +27,13 @@ public class ReleaseRadar extends Playlist
 
     public static int getNumberSongsAdded() {
         return numSongsAdded;
+    }
+
+    public static int getNumSongsAdded() {
+        return numSongsAdded;
+    }
+
+    public static void setNumSongsAdded(int numSongsAdded) {
+        ReleaseRadar.numSongsAdded = numSongsAdded;
     }
 }

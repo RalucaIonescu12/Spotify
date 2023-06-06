@@ -29,6 +29,10 @@ public class SongQueueRepo extends PlaylistsRepo {
                 return songQueue;
             }
         }
+        catch (SQLException e) {
+            System.out.println("eroare la getSongByUser");
+            throw new RuntimeException(e);
+        }
         return null;
     }
     public static void addSongInQueueForUser(String username,Song song)

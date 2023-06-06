@@ -1,5 +1,7 @@
 package database;
 
+import models.ReleaseRadar;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.sql.Connection;
@@ -11,6 +13,7 @@ import java.util.List;
 //TODO:addSong,addAlbum,deletedongfromplaylist
 
 public class RetrieveData {
+
     public void createTables() {
         String filePath = "C:\\FACULTATE\\ANUL II\\An II sem 2\\PAO\\create_tables.sql";
 
@@ -18,6 +21,8 @@ public class RetrieveData {
             Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
             Statement statement = connection.createStatement();
+
+
 
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
             StringBuilder sqlStatements = new StringBuilder();

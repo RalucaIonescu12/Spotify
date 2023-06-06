@@ -5,12 +5,15 @@ import models.Album;
 import models.Playlist;
 import models.Song;
 import models.User;
+import services.AuditService;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
 public class AlbumRepo {
     private static final Connection connection = DatabaseConfiguration.getDatabaseConnection();
+
     public AlbumRepo(){}
 
     public static Set<Album> addData()
@@ -34,6 +37,7 @@ public class AlbumRepo {
                 List<Song> songs = SongRepo.getSongsByAlbum(albumID);
                 album.setSongs(songs);
                 albums.add(album);
+
             }
 
             return albums;
@@ -44,7 +48,8 @@ public class AlbumRepo {
         }
     }
     public static void addAlbum(Album album) {
-        try {
+        try
+        {
             String query = "INSERT INTO Album (albumID, title, artist, genre, releaseDate) " +
                     "VALUES (?, ?, ?, ?, ?)";
 
@@ -56,6 +61,7 @@ public class AlbumRepo {
             statement.setString(5, album.getReleaseDate());
             statement.executeUpdate();
             System.out.println("Album added successfully!");
+
         }
         catch (SQLException e)
         {

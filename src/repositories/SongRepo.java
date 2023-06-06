@@ -2,17 +2,21 @@ package repositories;
 
 import database.DatabaseConfiguration;
 import models.Album;
+import models.ReleaseRadar;
 import models.Song;
 import models.SongQueue;
+import services.AuditService;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class SongRepo {
     private static Connection connection = DatabaseConfiguration.getDatabaseConnection();
-    public SongRepo (){}
 
+
+    public SongRepo (){}
 
     public static List<Song> addData() {
         String selectSql = "SELECT * FROM Song;";
@@ -55,6 +59,12 @@ public class SongRepo {
                 }
                 songs.add(song);
             }
+            for(Song s:songs)
+            {
+                ReleaseRadarRepo.verifySongNumberInRR(s);
+
+            }
+
             return songs;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -171,10 +181,10 @@ public class SongRepo {
             ResultSet resultSet=preparedStatement.executeQuery();
 
             if (resultSet.next()) {
+
                 return resultSet.getInt("songID");
-            } else {
-                return null; // or handle the case when no matching song is found
             }
+            else {System.out.println("N am gasit boss");return -1;}
 
 
         } catch (SQLException e)
@@ -204,6 +214,8 @@ public class SongRepo {
 
             statement.setInt(8, song.getAlbumID());
             statement.executeUpdate();
+
+
 
         } catch (SQLException e) {
             e.printStackTrace();

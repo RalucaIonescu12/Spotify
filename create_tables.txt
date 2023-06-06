@@ -1,0 +1,55 @@
+DROP TABLE IF EXISTS PlaylistsSongs;
+DROP TABLE IF EXISTS ReleaseRadar;
+DROP TABLE IF EXISTS Song;
+DROP TABLE IF EXISTS Album;
+DROP TABLE IF EXISTS Playlist;
+DROP TABLE IF EXISTS Userr;
+CREATE TABLE if not exists  Userr
+(
+    username VARCHAR(20) PRIMARY KEY,
+    firstname VARCHAR(20) NOT NULL,
+    lastname VARCHAR(20) NOT NULL,
+    password VARCHAR(20) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    subscriptionType VARCHAR(20) NOT NULL
+);
+create table if not exists  Playlist
+(
+	playlistName VARCHAR(20) PRIMARY KEY,
+    username VARCHAR(20),
+    description varchar(200),
+	FOREIGN KEY (username) REFERENCES Userr(username)
+);
+create table album
+(
+	albumID int primary key,
+	title VARCHAR(20) not null,
+    artist VARCHAR(20) not null,
+    genre VARCHAR(20) not null,
+	releaseDate VARCHAR(20) not null
+);
+create table if not exists Song
+(
+	songID int primary key,
+	title VARCHAR(20) not null,
+    genre VARCHAR(20) not null,
+    artist VARCHAR(20) not null,
+	features VARCHAR(200) ,
+    albumTitle VARCHAR(20) ,
+    duration VARCHAR(20) not null,
+    albumID int
+);
+create table if not exists  ReleaseRadar
+(
+playlistName varchar(20) primary key,
+numSongsAdded int not null,
+FOREIGN KEY (playlistName) REFERENCES playlist(playlistName)
+);
+create table if not exists  PlaylistsSongs
+(
+	playlistName VARCHAR(20),
+    songID int,
+    PRIMARY KEY (playlistName, songID),
+	FOREIGN KEY (playlistName) REFERENCES playlist(playlistName),
+	FOREIGN KEY (songID) REFERENCES song(songID)
+);

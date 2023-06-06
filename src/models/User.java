@@ -2,6 +2,8 @@ package models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 public class User
 {
     private String username,firstName,lastName,password,email,subscriptionType;
@@ -90,6 +92,19 @@ public class User
         this.email = email;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(username, user.username) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(subscriptionType, user.subscriptionType) && Objects.equals(playlists, user.playlists) && Objects.equals(songQueue, user.songQueue);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, firstName, lastName, password, email, subscriptionType, playlists, songQueue);
+    }
+
     public String getSubscriptionType() {
         return subscriptionType;
     }
@@ -110,7 +125,7 @@ public class User
     {
         Playlist playlist=null;
         for (Playlist p:playlists)
-            if (p.getPlaylistName().equals(name))
+            if (p.getPlaylistName().toLowerCase().equals(name.toLowerCase()))
             {
                 playlist=p;
                 return playlist;

@@ -16,7 +16,7 @@ public class SongQueue extends Playlist
     {
         for (Song s:this.getSongs())
         {
-            if(s.getTitle().equals(song.getTitle()) && s.getArtist().equals(song.getArtist()))
+            if(s.getTitle().toLowerCase().equals(song.getTitle().toLowerCase()) && s.getArtist().toLowerCase().equals(song.getArtist().toLowerCase()))
             {
                 break;
             }

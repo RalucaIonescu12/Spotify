@@ -4,13 +4,16 @@ import database.DatabaseConfiguration;
 import models.Album;
 import models.Playlist;
 import models.Song;
+import services.AuditService;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
 public class PlaylistsRepo {
 
     private static Connection connection = DatabaseConfiguration.getDatabaseConnection();
+
     public PlaylistsRepo(){}
     public static List<Playlist> addData()
     {
@@ -31,6 +34,7 @@ public class PlaylistsRepo {
                 playlist.setSongs(songs);
                 playlists.add(playlist);
 
+
             }
             return playlists;
 
@@ -47,7 +51,6 @@ public class PlaylistsRepo {
         try (PreparedStatement stmt = connection.prepareStatement(selectSql)) {
             stmt.setString(1, username);
             ResultSet resultSet = stmt.executeQuery();
-            System.out.println("Playlisturi gasite in baza de date:"+resultSet.getFetchSize());
             while (resultSet.next())
             {
                 String playlistName = resultSet.getString("playlistName");
@@ -56,8 +59,8 @@ public class PlaylistsRepo {
                 List<Song> songs = SongRepo.getSongsByPlaylist(playlistName);
                 playlist.setSongs(songs);
                 playlists.add(playlist);
-                System.out.println("Playlist:"+ playlistName);
             }
+
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -67,10 +70,10 @@ public class PlaylistsRepo {
     }
     public static void deleteSongFromPlaylist(String playlistName, String songName)
     {
-        String q="Delete from PlaylistsSongs where playlistName= ? and songID= ? ";
+        String q="Delete from PlaylistsSongs where lower (playlistName) = ? and songID= ? ";
         try {
             PreparedStatement preparedStatement=connection.prepareStatement(q);
-            preparedStatement.setString(1,playlistName);
+            preparedStatement.setString(1,playlistName.toLowerCase());
 
             Integer songID=SongRepo.getSongIdByTitle(songName);
 
@@ -98,11 +101,13 @@ public class PlaylistsRepo {
 
             statement.executeUpdate();
 
+
         }
         catch (SQLException e)
         {
             e.printStackTrace();
             System.out.println("Error when adding Song in PlaylistsSongs!!");
+
         }
 
     }

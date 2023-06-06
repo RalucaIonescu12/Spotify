@@ -4,10 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class MyFrame implements ActionListener
 {
+    AuditService auditService=AuditService.getInstance();
     private JButton login;
     private JButton register;
     private Spotify spotify;
@@ -73,6 +75,14 @@ public class MyFrame implements ActionListener
                 logout.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        try
+                        {
+                            auditService.logAction("Logout");
+                        }
+                        catch (IOException x)
+                        {
+                            x.printStackTrace();
+                        }
                         // close the current frame
                         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(logout);
                         frame.dispose();
@@ -192,7 +202,7 @@ public class MyFrame implements ActionListener
                 });
 
 
-                JButton showAllSongAlbumsPodcasts= new JButton("View all Songs/Albums/Podcasts");
+                JButton showAllSongAlbumsPodcasts= new JButton("View all Songs/Albums");
                 showAllSongAlbumsPodcasts.setBounds(100,410,250,40);
                 newContainer.add(showAllSongAlbumsPodcasts);
                 showAllSongAlbumsPodcasts.setBackground(new Color(41, 159, 41));
@@ -200,7 +210,7 @@ public class MyFrame implements ActionListener
                     @Override
                     public void actionPerformed(ActionEvent e)
                     {
-                        spotify.printAllSongsAlbumsAndPodcasts();
+                        spotify.printAllSongsAlbums();
                     }
                 });
 
@@ -216,7 +226,7 @@ public class MyFrame implements ActionListener
                     }
                 });
 
-                JButton playFromSongInQueue=  new JButton("Skip to a song in queue");
+                JButton playFromSongInQueue=  new JButton("Show Release Radar");
                 playFromSongInQueue.setBounds(100,510,250,40);
                 newContainer.add(playFromSongInQueue);
                 playFromSongInQueue.setBackground(new Color(41, 159, 41));
@@ -224,7 +234,7 @@ public class MyFrame implements ActionListener
                     @Override
                     public void actionPerformed(ActionEvent e)
                     {
-                        spotify.playSongFromQueue();
+                        spotify.showReleaseRadar();
                     }
                 });
 
@@ -248,6 +258,14 @@ public class MyFrame implements ActionListener
                     @Override
                     public void actionPerformed(ActionEvent e)
                     {
+                        try
+                        {
+                            auditService.logAction("Exit Spotify");
+                        }
+                        catch (IOException x)
+                        {
+                            x.printStackTrace();
+                        }
                         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(exit);
                         frame.dispose();
                         frame = (JFrame) SwingUtilities.getWindowAncestor(login);
@@ -381,11 +399,11 @@ public class MyFrame implements ActionListener
                 });
 
 
-                JButton showAllSongAlbumsPodcasts= new JButton("View all Songs/Albums/Podcasts");
+                JButton showAllSongAlbumsPodcasts= new JButton("View all Songs/Albums");
                 showAllSongAlbumsPodcasts.setBounds(100,410,250,40);
                 newContainer.add(showAllSongAlbumsPodcasts);
                 showAllSongAlbumsPodcasts.setBackground(new Color(41, 159, 41));
-                showAllSongAlbumsPodcasts.addActionListener(e15 -> spotify.printAllSongsAlbumsAndPodcasts());
+                showAllSongAlbumsPodcasts.addActionListener(e15 -> spotify.printAllSongsAlbums());
 
                 JButton showQueue =  new JButton("Show queue");
                 showQueue.setBounds(100,460,250,40);
@@ -393,11 +411,11 @@ public class MyFrame implements ActionListener
                 showQueue.setBackground(new Color(41, 159, 41));
                 showQueue.addActionListener(e14 -> spotify.printQueue());
 
-                JButton playFromSongInQueue=  new JButton("Skip to a song in queue");
+                JButton playFromSongInQueue=  new JButton("Show Release Radar");
                 playFromSongInQueue.setBounds(100,510,250,40);
                 newContainer.add(playFromSongInQueue);
                 playFromSongInQueue.setBackground(new Color(41, 159, 41));
-                playFromSongInQueue.addActionListener(e13 -> spotify.playSongFromQueue());
+                playFromSongInQueue.addActionListener(e13 -> spotify.showReleaseRadar());
 
                 JButton showMyPlaylists =  new JButton("Show my playlists");
                 showMyPlaylists.setBounds(100,560,250,40);

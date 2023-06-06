@@ -3,6 +3,7 @@ package models;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class Playlist
 {
@@ -81,5 +82,16 @@ public class Playlist
         this.songs.add(song);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Playlist playlist = (Playlist) o;
+        return Objects.equals(playlistName, playlist.playlistName) && Objects.equals(description, playlist.description) && Objects.equals(songs, playlist.songs);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(playlistName, description, songs);
+    }
 }
